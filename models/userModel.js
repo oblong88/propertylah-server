@@ -11,7 +11,7 @@ User.init(
       autoIncrement: true,
     },
     role: {
-      type: DataTypes.ENUM("user", "agent", "admin"),
+      type: DataTypes.STRING,
       allowNull: false,
     },
     email: {

@@ -27,7 +27,7 @@ const startServer = () => {
 
 process.env.NODE_ENV === "development" &&
   sequelize
-    .sync({ force: true })
+    .sync({ alter: true })
     .then(startServer)
     .catch((err) =>
       console.error("[server.js] ❌ Database error: ", err.message)

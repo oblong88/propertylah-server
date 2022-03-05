@@ -70,11 +70,11 @@ To be updated.
 
 # Database Naming Conventions
 
-Production and Development DB Name: propertylah_db
+Production and Development DB Name: `propertylah_db`
 
-All table names to use lowercase, singular nouns e.g. user, property, etc.
+All table names to use lowercase, singular nouns e.g. `user`, `property`, etc.
 
-All field names to use snake case and lowercase e.g. first_name, last_name, etc.
+All field names to use snake case and lowercase e.g. `first_name`, `last_name`, etc.
 
 All primary keys to be named `id` to prevent ambiguity.
 
@@ -215,7 +215,7 @@ DELETE /api/v1/articles/:id
 # Git Strategy
 
 - Master Branch
-- Development Branch - team members are to fork this branch and do a PR when ready
+- Development Branch - team members are to fork this repo, work on this branch and do a PR when ready
 - Production Branch
 
 # Testing (Optional)

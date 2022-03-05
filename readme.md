@@ -214,9 +214,13 @@ DELETE /api/v1/articles/:id
 
 # Git Strategy
 
-- Master Branch
-- Development Branch - team members are to fork this repo, work on this branch and do a PR when ready
-- Production Branch
+## Trunk-based Development
+
+- Create a new branch from master, or fork the master repo.
+- Do a PR when completed.
+- Note: remember to pull latest code before doing a PR
+
+For more info: https://www.atlassian.com/continuous-delivery/continuous-integration/trunk-based-development
 
 # Testing (Optional)
 

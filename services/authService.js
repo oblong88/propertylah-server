@@ -13,6 +13,7 @@ const signToken = (id) => {
 exports.signup = async (data) => {
   const hashedPwd = await bcrypt.hash(data.password, 10);
 
+  // TODO: issue token
   const newUser = await User.create({
     email: data.email,
     password: hashedPwd,
@@ -27,7 +28,9 @@ exports.signup = async (data) => {
 };
 
 exports.login = async (email, password) => {
-  const foundUser = await User.findOne({ where: { email } });
+  const foundUser = await User.scope("withPassword").findOne({
+    where: { email },
+  });
 
   if (foundUser) {
     const match = await bcrypt.compare(password, foundUser.password);
@@ -40,6 +43,7 @@ exports.login = async (email, password) => {
 
   throw new Error("Invalid user or password");
 };
+
 exports.logout = async () => {};
 
 exports.protect = async (token) => {

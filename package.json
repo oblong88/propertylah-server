@@ -11,8 +11,10 @@
   "author": "SDI Cohort 3 Group 2",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
+    "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "pg": "^8.7.3",
     "sequelize": "^6.17.0"

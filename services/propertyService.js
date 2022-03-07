@@ -27,6 +27,7 @@ module.exports = {
         return allProperty;
     },
 
+//todo add filter search
     getProperty : async(propertyId)=>{
         const property = await Property.findByPk(propertyId);
         if (!property) throw new Error (`Property ID ${propertyId} Not Found`);
@@ -62,4 +63,3 @@ module.exports = {
     }
 }
 
-//todo check any other validation required

@@ -15,8 +15,8 @@ router.post("/logout", authController.logout);
 router
   .route("/")
   .post(userController.createUser)
-  .get(authController.protect, userController.getAllUsers);
-
+  .get(userController.getAllUsers);
+// .get(authController.protect, userController.getAllUsers);
 router
   .route("/:id")
   .get(userController.getUser)

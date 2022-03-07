@@ -13,10 +13,20 @@ User.init(
     role: {
       type: DataTypes.STRING,
       allowNull: false,
+      defaultValue: "user",
+      validate: {
+        customValidator: (value) => {
+          const enums = ["user", "agent", "admin"];
+          if (!enums.includes(value)) {
+            throw new Error("not a valid role");
+          }
+        },
+      },
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     firstName: {
       type: DataTypes.STRING,
@@ -47,6 +57,16 @@ User.init(
     sequelize,
     modelName: "Users",
     tableName: "user",
+    defaultScope: {
+      attributes: {
+        exclude: ["password"],
+      },
+    },
+    scopes: {
+      withPassword: {
+        attributes: {},
+      },
+    },
   }
 );
 

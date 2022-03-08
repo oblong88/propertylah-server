@@ -7,14 +7,14 @@ const propertyController = new PropertyController();
 const router = express.Router();
 
 router
-  .route("/")
-  .post(propertyController.createProperty)
-  .get(propertyController.getAllProperties);
-
-router
   .route("/:id")
   .get(propertyController.getProperty)
   .patch(propertyController.updateProperty)
   .delete(propertyController.deleteProperty);
+router
+  .route("/")
+  .post(propertyController.createProperty)
+  .get(propertyController.getAllProperties);
+
 
 module.exports = router;

@@ -1,7 +1,7 @@
 const { Op, where } = require("sequelize");
 const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
-
+const CustomAPIQuery = require("../utils/customAPIQuery");
 exports.createUser = async (data) => {
   // TODO: validation on data, throw error
   const hashedPwd = await bcrypt.hash(data.password, 10);
@@ -24,70 +24,17 @@ exports.getUser = async (id) => {
 };
 
 exports.getAllUsers = async (queryObj) => {
-  console.log("queryObj", queryObj);
-
+  // object to hold the list of options for the final query
   let queryOptions = {};
-  queryOptions.where = {};
 
-  // 1) FILTERING (gt, lt, etc) [ DONE ]
-  // example:
-  // Post.findAll({
-  //   where: {
-  //     authorId: {
-  //       [Op.eq]: 2
-  //     }
-  //   }
-  // });
+  const customAPIQuery = new CustomAPIQuery(queryObj, queryOptions)
+    .filter()
+    .sort()
+    .limitFields()
+    .paginate();
 
-  // define fields to be excluded - db should not have these fields!
-  const excludedFields = ["page", "sort", "limit", "fields"];
-
-  // queryFilter - shallow copy of query object
-  const queryFilter = { ...queryObj };
-
-  // remove non-filter field types
-  excludedFields.forEach((el) => delete queryFilter[el]);
-  console.log("queryFilter", queryFilter);
-
-  for (const [field, whereObj] of Object.entries(queryFilter)) {
-    const operator = Object.keys(whereObj)[0];
-    const compareVal = Object.values(whereObj)[0];
-
-    // check if operator is valid
-    if (!Object.prototype.hasOwnProperty.call(Op, operator)) {
-      throw new Error(`Invalid filter operator (${operator})`);
-    }
-
-    // update query options
-    queryOptions.where[field] = {
-      [Op[operator]]: compareVal,
-    };
-  }
-
-  // 2) LIMIT FIELDS (attributes) [ DONE ]
-  // example:
-  // Model.findAll({
-  //   attributes: ['foo', 'bar']
-  // });
-
-  if (queryObj.fields)
-    queryOptions.attributes = queryObj.fields
-      .split(",")
-      .filter((el) => el !== "password");
-
-  // 3) PAGINATION
-
-  // 4) SORT
-
-  if (queryObj.sort) {
-    queryOptions.sort = {};
-    const sortBy = queryObj.sort.split(",").join(" ");
-    console.log("sort", [queryObj.sort]);
-    console.log("sortBy", sortBy);
-  }
-  // EXECUTE QUERY
-  console.log("queryOptions", queryOptions);
-  const allUsers = await User.findAll(queryOptions);
+  // Execute Query
+  const allUsers = await User.findAll(customAPIQuery.queryOptions);
   return allUsers;
 };
 

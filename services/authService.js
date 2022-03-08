@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const { promisify } = require("util");
 
 const User = require("../models/userModel");
+const { nextTick } = require("process");
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -54,7 +55,16 @@ exports.protect = async (token) => {
   if (!userStillExists)
     throw new Error("The user holding this token no longer exists");
 
-  req.user = userStillExists;
-
   return true;
+};
+
+exports.restrictTo = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return next(
+        new Error("You do not have permission to perform this action")
+      );
+    }
+    next();
+  };
 };

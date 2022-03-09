@@ -36,6 +36,7 @@ exports.getAllUsers = async (queryObj) => {
     .paginate();
 
   // Execute Query
+  // Select * from articles
   const allUsers = await User.findAll(customAPIQuery.queryOptions);
   return allUsers;
 };

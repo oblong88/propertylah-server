@@ -3,7 +3,6 @@ const { Sequelize } = require("sequelize");
 // DB connection
 
 let sequelize;
-
 if (process.env.NODE_ENV === "development")
   sequelize = new Sequelize(
     process.env.DEV_DB_NAME,
@@ -21,6 +20,12 @@ if (process.env.NODE_ENV === "production")
     host: "localhost",
     dialect: "postgres",
     logging: false,
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
   });
 
 // const sequelize = new Sequelize(

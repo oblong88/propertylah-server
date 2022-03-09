@@ -25,12 +25,20 @@ const startServer = () => {
   });
 };
 
-process.env.NODE_ENV === "development" &&
-  sequelize
-    .sync({ alter: true })
-    .then(startServer)
-    .catch((err) =>
-      console.error("[server.js] ❌ Database error: ", err.message)
-    );
+// process.env.NODE_ENV === "development" &&
+//   sequelize
+//     .sync({ alter: true })
+//     .then(startServer)
+//     .catch((err) =>
+//       console.error("[server.js] ❌ Database error: ", err.message)
+//     );
 
-process.env.NODE_ENV === "production" && startServer();
+// process.env.NODE_ENV === "production" && startServer();
+
+// sync db regardless of env
+sequelize
+  .sync({ alter: true })
+  .then(startServer)
+  .catch((err) =>
+    console.error("[server.js] ❌ Database error: ", err.message)
+  );

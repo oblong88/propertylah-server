@@ -7,7 +7,7 @@ const app = require("./app");
 const port = process.env.PORT || 3000;
 
 // uncomment next line to test if db connects
-// testConnection();
+testConnection();
 
 const startServer = () => {
   const server = app.listen(port, () => {
@@ -25,12 +25,20 @@ const startServer = () => {
   });
 };
 
-process.env.NODE_ENV === "development" &&
-  sequelize
-    .sync({ alter: true })
-    .then(startServer)
-    .catch((err) =>
-      console.error("[server.js] ❌ Database error: ", err.message)
-    );
+// process.env.NODE_ENV === "development" &&
+//   sequelize
+//     .sync({ alter: true })
+//     .then(startServer)
+//     .catch((err) =>
+//       console.error("[server.js] ❌ Database error: ", err.message)
+//     );
 
-process.env.NODE_ENV === "production" && startServer();
+// process.env.NODE_ENV === "production" && startServer();
+
+// sync db regardless of env
+sequelize
+  .sync({ alter: true })
+  .then(startServer)
+  .catch((err) =>
+    console.error("[server.js] ❌ Database error: ", err.message)
+  );

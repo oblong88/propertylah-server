@@ -16,6 +16,8 @@ router
   .route("/")
   .post(userController.createUser)
   .get(userController.getAllUsers);
+
+// Get all admin route - PROTECT for demo
 // .get(authController.protect, userController.getAllUsers);
 router
   .route("/:id")

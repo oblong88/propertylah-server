@@ -1,4 +1,5 @@
 const { Op, where } = require("sequelize");
+const AppError = require("./appError");
 
 class CustomAPIQuery {
   constructor(queryObj, queryOptions) {
@@ -24,7 +25,8 @@ class CustomAPIQuery {
 
       // check if operator is valid
       if (!Object.prototype.hasOwnProperty.call(Op, operator)) {
-        throw new Error(`Invalid filter operator (${operator})`);
+        // throw new Error(`Invalid filter operator (${operator})`);
+        throw new AppError(`Invalid filter operator (${operator})`, 400);
       }
 
       // update query options

@@ -1,94 +1,65 @@
 const userService = require("../services/userService");
+const AppError = require("../utils/appError");
+const catchAsync = require("../utils/catchAsync");
 
 class UserController {
-  async createUser(req, res, next) {
-    try {
-      const result = await userService.createUser(req.body);
+  createUser = catchAsync(async (req, res, next) => {
+    const result = await userService.createUser(req.body);
 
-      res.status(200).json({
-        status: "success",
-        data: result,
-      });
-    } catch (err) {
-      res.status(404).json({
-        status: "fail",
-        message: err.message,
-      });
-    }
-  }
+    res.status(200).json({
+      status: "success",
+      data: result,
+    });
+  });
 
-  async getUser(req, res, next) {
-    try {
-      const id = +req.params.id;
-      if (!id) throw new Error("Invalid id");
+  getUser = catchAsync(async (req, res, next) => {
+    const id = +req.params.id;
 
-      const result = await userService.getUser(+req.params.id);
-      res.status(200).json({
-        status: "success",
-        data: result,
-      });
-    } catch (err) {
-      res.status(404).json({
-        status: "fail",
-        message: err.message,
-      });
-    }
-  }
+    if (!id) throw new AppError("Invalid id", 400);
 
-  async getAllUsers(req, res, next) {
-    try {
-      const result = await userService.getAllUsers(req.query);
+    const result = await userService.getUser(+req.params.id);
 
-      res.status(200).json({
-        status: "success",
-        results: result.length,
-        data: result,
-      });
-    } catch (err) {
-      res.status(404).json({
-        status: "fail",
-        message: err.message,
-      });
-    }
-  }
+    if (!result) return next(new AppError("No user found", 404));
 
-  async updateUser(req, res, next) {
-    try {
-      const id = +req.params.id;
-      if (!id) throw new Error("Invalid id");
+    res.status(200).json({
+      status: "success",
+      data: result,
+    });
+  });
 
-      const result = await userService.updateUser(id, req.body);
+  getAllUsers = catchAsync(async (req, res, next) => {
+    const result = await userService.getAllUsers(req.query);
 
-      res.status(200).json({
-        status: "success",
-        data: result,
-      });
-    } catch (err) {
-      res.status(404).json({
-        status: "fail",
-        message: err.message,
-      });
-    }
-  }
+    res.status(200).json({
+      status: "success",
+      results: result.length,
+      data: result,
+    });
+  });
 
-  async deleteUser(req, res, next) {
-    try {
-      const id = +req.params.id;
-      if (!id) throw new Error("Invalid id");
+  updateUser = catchAsync(async (req, res, next) => {
+    const id = +req.params.id;
+    if (!id) throw new AppError("Invalid id", 400);
 
-      await userService.deleteUser(id);
+    const result = await userService.updateUser(id, req.body);
 
-      res.status(204).json({
-        status: "success",
-        data: null,
-      });
-    } catch (err) {
-      res.status(404).json({
-        status: "fail",
-        message: err.message,
-      });
-    }
-  }
+    res.status(200).json({
+      status: "success",
+      data: result,
+    });
+  });
+
+  deleteUser = catchAsync(async (req, res, next) => {
+    const id = +req.params.id;
+    if (!id) throw new AppError("Invalid id", 400);
+
+    await userService.deleteUser(id);
+
+    res.status(204).json({
+      status: "success",
+      data: null,
+    });
+  });
 }
 
 module.exports = UserController;

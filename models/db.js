@@ -8,7 +8,7 @@ const sequelize = new Sequelize(
   process.env.NODE_ENV === "development"
     ? process.env.DEV_DB_USERNAME
     : process.env.PROD_DB_USERNAME,
-  "X@n@th0s",
+  "ZwSSNA2Mo#wyXY",
   {
     host: "localhost",
     dialect: "postgres",

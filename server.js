@@ -7,7 +7,7 @@ const app = require("./app");
 const port = process.env.PORT || 3000;
 
 // uncomment next line to test if db connects
-// testConnection();
+testConnection();
 
 const startServer = () => {
   const server = app.listen(port, () => {

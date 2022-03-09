@@ -47,9 +47,9 @@ if (process.env.NODE_ENV === "production")
 const testConnection = async () => {
   try {
     await sequelize.authenticate();
-    console.log("Connection success!");
+    console.log("DB Connection success!");
   } catch (error) {
-    console.log("Connection failed", error);
+    console.log("DB Connection failed", error);
   }
 };
 

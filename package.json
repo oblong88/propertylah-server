@@ -4,8 +4,8 @@
   "description": "Property Guru Clone for SDI Module 3 Project",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js",
-    "start:prod": "NODE_ENV=production node server.js",
+    "start:dev": "nodemon server.js",
+    "start": "NODE_ENV=production node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "SDI Cohort 3 Group 2",

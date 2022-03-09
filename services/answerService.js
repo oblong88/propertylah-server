@@ -1,5 +1,6 @@
 // import your model here
 const Answer = require("../models/answerModel");
+const CustomAPIQuery = require("../utils/customAPIQuery");
 
 exports.createAnswer = async (data) => {
   const newAnswer = await Answer.create(data);
@@ -13,8 +14,18 @@ exports.getAnswer = async (id) => {
   return foundAnswer;
 };
 
-exports.getAllAnswers = async () => {
-  const allAnswers = await Answer.findAll();
+exports.getAllAnswers = async (queryObj) => {
+  // Object to hold list of options for query
+  let queryOptions = {};
+  console.log(queryObj);
+  const customAPIQuery = new CustomAPIQuery(queryObj, queryOptions)
+    .filter()
+    .limitFields()
+    .sort()
+    .paginate();
+
+  // Execute query
+  const allAnswers = await Answer.findAll(customAPIQuery.queryOptions);
   return allAnswers;
 };
 

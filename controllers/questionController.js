@@ -1,4 +1,4 @@
-// const questionService = require("../services/questionService");
+const questionService = require("../services/questionService");
 
 class QuestionController {
   async createQuestion(req, res, next) {
@@ -36,7 +36,7 @@ class QuestionController {
 
   async getAllQuestions(req, res, next) {
     try {
-      const result = await questionService.getAllQuestions();
+      const result = await questionService.getAllQuestions(req.query);
 
       res.status(200).json({
         status: "success",

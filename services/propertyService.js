@@ -1,4 +1,5 @@
-const  Property  = require('../models/propertyModel')
+const Property = require('../models/propertyModel')
+const User = require('../models/userModel')
 
 module.exports = {
     createProperty : async(body)=>{
@@ -15,21 +16,21 @@ module.exports = {
             "noOfBedrooms" : body.noOfBedrooms,
             "noOfBaths" : body.noOfBaths,
             "floorsize" : body.floorsize,
-            "pricePSF" : body.price/body.floorsize,
+            "pricePSF" : (body.price/body.floorsize).toFixed(1),
             "propertyType" : body.propertyType,
             "TOPYear" : body.TOPYear,
+            "sellerId": body.sellerId
         })
         return property;
     },
 
     getAllProperties : async()=>{
-        const allProperty = await Property.findAll();
+        const allProperty = await Property.findAll({include:User});
         return allProperty;
     },
 
-//todo add filter search
     getProperty : async(propertyId)=>{
-        const property = await Property.findByPk(propertyId);
+        const property = await Property.findOne({where: {id:propertyId},include:User});
         if (!property) throw new Error (`Property ID ${propertyId} Not Found`);
         return property;
     },
@@ -47,9 +48,10 @@ module.exports = {
             noOfBedrooms : body.noOfBedrooms,
             noOfBaths : body.noOfBaths,
             floorsize : body.floorsize,
-            pricePSF : body.price/body.floorsize,
+            pricePSF : (body.price/body.floorsize).toFixed(1),
             propertyType : body.propertyType,
             TOPYear : body.TOPYear,
+            sellerId: body.sellerId
         },{where: {id: propertyId}});
 
     //redo find to return latest updated
@@ -63,3 +65,6 @@ module.exports = {
     }
 }
 
+Property.belongsTo(User,{
+    foreignKey: "sellerId"
+});

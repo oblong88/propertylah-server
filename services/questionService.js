@@ -1,4 +1,5 @@
 const Question = require("../models/questionModel");
+const CustomAPIQuery = require("../utils/customAPIQuery");
 
 exports.createQuestion = async (data) => {
     const newQuestion = await Question.create(data);
@@ -7,13 +8,23 @@ exports.createQuestion = async (data) => {
 }
 
 exports.getQuestion = async (id) => {
-  const foundQuestion = await User.findByPk(id);
+  const foundQuestion = await Question.findByPk(id);
   if (!foundQuestion) throw new Error("User not found");
   return foundQuestion;
 };
 
-exports.getAllQuestion = async () => {
-  const allQuestion = await User.findAll();
+exports.getAllQuestions = async (queryObj) => {
+   // object to hold the list of options for the final query
+  let queryOptions = {};
+
+  const customAPIQuery = new CustomAPIQuery(queryObj, queryOptions)
+    .filter()
+    .sort()
+    .limitFields()
+    .paginate()
+  
+
+  const allQuestion = await Question.findAll(customAPIQuery.queryOptions)
   return allQuestion;
 };
 

@@ -23,7 +23,7 @@ Question.init(
     question: {
       type: DataTypes.STRING,
         allowNull: false,
-      field: 'question_asked'
+      field: 'question'
         },
     createdAt: {
       type: DataTypes.DATE,

@@ -37,7 +37,7 @@ const startServer = () => {
 
 // sync db regardless of env
 sequelize
-  .sync({ alter: true })
+  .sync()
   .then(startServer)
   .catch((err) =>
     console.error("[server.js] ❌ Database error: ", err.message)

@@ -39,7 +39,7 @@ class AnswerController {
 
   async getAllAnswers(req, res, next) {
     try {
-      const result = await answerService.getAllAnswers();
+      const result = await answerService.getAllAnswers(req.query);
 
       res.status(200).json({
         status: "success",

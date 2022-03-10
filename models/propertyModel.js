@@ -67,8 +67,8 @@ Property.init(
         allowNull: false,
     },
     sellerId: {
-        type: DataTypes.STRING,
-        allowNull: true,
+        type: DataTypes.INTEGER,
+        allowNull: true, //todo need to change to false 
         field: "seller_id"
     },
     createdAt: {

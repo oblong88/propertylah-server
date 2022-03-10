@@ -1,13 +1,12 @@
 const { Sequelize } = require("sequelize");
 
 // DB connection
-
 let sequelize;
 if (process.env.NODE_ENV === "development")
   sequelize = new Sequelize(
     process.env.DEV_DB_NAME,
     process.env.DEV_DB_USERNAME,
-    "postgres",
+    "X@n@th0s",
     {
       host: "localhost",
       dialect: "postgres",

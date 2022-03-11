@@ -25,7 +25,6 @@ class CustomAPIQuery {
 
       // check if operator is valid
       if (!Object.prototype.hasOwnProperty.call(Op, operator)) {
-        // throw new Error(`Invalid filter operator (${operator})`);
         throw new AppError(`Invalid filter operator (${operator})`, 400);
       }
 

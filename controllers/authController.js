@@ -8,21 +8,6 @@ const authService = require("../services/authService");
 const AppError = require("../utils/appError");
 
 class AuthController {
-  // async signup(req, res, next) {
-  //   try {
-  //     const result = await authService.signup(req.body);
-
-  //     res.status(200).json({
-  //       status: "success",
-  //       data: result,
-  //     });
-  //   } catch (err) {
-  //     res.status(404).json({
-  //       status: "fail",
-  //       message: err.message,
-  //     });
-  //   }
-  // }
   signup = catchAsync(async (req, res, next) => {
     if (!req.body)
       return next(new AppError("No data provided for new user", 400));

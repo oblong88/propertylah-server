@@ -39,7 +39,7 @@ class UserController {
 
   updateUser = catchAsync(async (req, res, next) => {
     const id = +req.params.id;
-    if (!id) throw new AppError("Invalid id", 400);
+    if (!id) return next(new AppError("Invalid id", 400));
 
     if (Object.keys(req.body).length === 0)
       return next(new AppError("No data entered", 400));

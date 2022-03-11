@@ -1,5 +1,7 @@
 const { Sequelize } = require("sequelize");
 
+// TODO: make use of prod and dev.env files instead
+
 // DB connection
 let sequelize;
 if (process.env.NODE_ENV === "development")

@@ -21,8 +21,6 @@ router
     userController.getAllUsers
   );
 
-// Get all admin route - PROTECT for demo
-// .get(authController.protect, userController.getAllUsers);
 router
   .route("/:id")
   .get(userController.getUser)

@@ -32,10 +32,6 @@ const sendErrorProd = (err, res) => {
   }
 };
 
-const handleDuplicateFieldsDB = (error) => {
-  // console.log(error);
-  return new AppError(error.errors[0].message, 400);
-};
 const handleSequelize = (error) => {
   // console.log(error);
   return new AppError(error.errors[0].message, 400);
@@ -49,10 +45,6 @@ module.exports = (err, req, res, next) => {
     sendErrorDev(err, res);
   } else if (process.env.NODE_ENV === "production") {
     // Mark Sequelize Operational Errors
-    // duplicate field error
-    // if (err.name === "SequelizeUniqueConstraintError")
-    //   err = handleDuplicateFieldsDB(err);
-
     if (err.name.startsWith("Sequelize")) err = handleSequelize(err);
     sendErrorProd(err, res);
   }

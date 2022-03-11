@@ -42,7 +42,7 @@ class UserController {
     if (!id) throw new AppError("Invalid id", 400);
 
     if (Object.keys(req.body).length === 0)
-      throw new AppError("No data entered", 400);
+      return next(new AppError("No data entered", 400));
 
     const result = await userService.updateUser(id, req.body);
 

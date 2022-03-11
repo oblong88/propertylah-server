@@ -56,16 +56,16 @@ exports.protect = async (token) => {
     throw new AppError("The user holding this token no longer exists", 401);
 
   // check password changed time
-  return true;
+  return userStillExists;
 };
 
-exports.restrictTo = (...roles) => {
-  return (req, res, next) => {
-    if (!roles.includes(req.user.role)) {
-      return next(
-        new Error("You do not have permission to perform this action")
-      );
-    }
-    next();
-  };
-};
+// exports.restrictTo = (...roles) => {
+//   return (req, res, next) => {
+//     if (!roles.includes(req.user.role)) {
+//       return next(
+//         new Error("You do not have permission to perform this action")
+//       );
+//     }
+//     next();
+//   };
+// };

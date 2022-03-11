@@ -1,5 +1,6 @@
 const express = require("express");
 const morgan = require("morgan");
+const cookieParser = require("cookie-parser");
 const globalErrorHandler = require("./controllers/errorController");
 const AppError = require("./utils/appError");
 
@@ -16,7 +17,7 @@ const userRouter = require("./routes/userRoute");
 
 // middleware
 app.use(express.json());
-
+app.use(cookieParser());
 // store requested time on req
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();

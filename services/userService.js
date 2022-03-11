@@ -36,7 +36,6 @@ exports.getAllUsers = async (queryObj) => {
     .paginate();
 
   // Execute Query
-  // Select * from articles
   const allUsers = await User.findAll(customAPIQuery.queryOptions);
   return allUsers;
 };
@@ -45,9 +44,12 @@ exports.updateUser = async (id, data) => {
   // TODO: validation - remove role
   const updatedUser = await User.update(data, {
     where: { id },
+    returning: true,
   });
 
-  if (!updatedUser) throw new AppError("Error updating user", 500);
+  if (!updatedUser[0]) throw new AppError("User not found", 404);
+
+  return updatedUser[1];
 };
 
 exports.deleteUser = async (id) => {

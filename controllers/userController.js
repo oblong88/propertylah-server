@@ -15,7 +15,7 @@ class UserController {
   getUser = catchAsync(async (req, res, next) => {
     const id = +req.params.id;
 
-    if (!id) throw new AppError("Invalid id", 400);
+    if (!id) return next(new AppError("Invalid id", 400));
 
     const result = await userService.getUser(+req.params.id);
 
@@ -41,6 +41,9 @@ class UserController {
     const id = +req.params.id;
     if (!id) throw new AppError("Invalid id", 400);
 
+    if (Object.keys(req.body).length === 0)
+      throw new AppError("No data entered", 400);
+
     const result = await userService.updateUser(id, req.body);
 
     res.status(200).json({
@@ -51,7 +54,7 @@ class UserController {
 
   deleteUser = catchAsync(async (req, res, next) => {
     const id = +req.params.id;
-    if (!id) throw new AppError("Invalid id", 400);
+    if (!id) return next(new AppError("Invalid id", 400));
 
     await userService.deleteUser(id);
 

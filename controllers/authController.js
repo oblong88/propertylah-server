@@ -55,35 +55,27 @@ class AuthController {
       data: result,
     });
   });
-  // async login(req, res, next) {
-  //   try {
-  //     console.log(req.body.email, req.body.password);
-  //     const result = await authService.login(req.body.email, req.body.password);
 
-  //     const cookieOptions = {
-  //       expires: new Date(
-  //         Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
-  //       ),
-  //       httpOnly: true,
-  //     };
-
-  //     res.cookie("jwt", result.dataValues.token, cookieOptions);
-
-  //     res.status(200).json({
-  //       status: "success",
-  //       data: result,
-  //     });
-  //   } catch (err) {
-  //     res.status(404).json({
-  //       status: "fail",
-  //       message: err.message,
-  //     });
-  //   }
-  // }
-
-  async logout(req, res, next) {
+  logout = (req, res, next) => {
     // delete cookie or store jwt in blacklist
-  }
+    res.cookie("jwt", "loggedout", {
+      expires: new Date(Date.now() + 10 * 1000),
+      httpOnly: true,
+    });
+
+    res.status(200).json({ status: "success" });
+  };
+
+  restrictTo = (...roles) => {
+    return (req, res, next) => {
+      if (!roles.includes(req.user.role)) {
+        return next(
+          new AppError("You do not have permission to perform this action", 401)
+        );
+      }
+      next();
+    };
+  };
 
   protect = catchAsync(async (req, res, next) => {
     let token;
@@ -94,8 +86,6 @@ class AuthController {
     ) {
       token = req.headers.authorization.split(" ")[1];
     } else if (req.cookies?.jwt) {
-      // FIXME: cookies issue
-      console.log(req.cookies);
       token = req.cookies.jwt;
     }
 
@@ -106,7 +96,9 @@ class AuthController {
 
     const result = await authService.protect(token);
 
-    if (result) next();
+    if (result) req.user = result;
+
+    next();
   });
 }
 

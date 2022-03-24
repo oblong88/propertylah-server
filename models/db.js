@@ -8,7 +8,7 @@ if (process.env.NODE_ENV === "development")
   sequelize = new Sequelize(
     process.env.DEV_DB_NAME,
     process.env.DEV_DB_USERNAME,
-    "X@n@th0s",
+    "",
     {
       host: "localhost",
       dialect: "postgres",
